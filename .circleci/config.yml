@@ -1,0 +1,52 @@
+version: 2.1
+jobs:
+  lint_test_py37_conda:
+    docker:
+      - image: continuumio/miniconda3
+    steps:
+      - checkout
+      - run:
+          name: Install requirements
+          command: |
+            conda env create -f environment-dev.yml
+      - run:
+          name: Install dhm_module_base Package
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev
+            pip install .[dev]
+      - run:
+          name: Run unit tests
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev
+            pytest ./tests
+            mkdir test-reports
+            pytest --junitxml=test-reports/junit.xml ./tests
+      - run:
+          name: Lint with black
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev
+            black --check --diff .
+      - run:
+          name: Lint with pylint
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev        
+            pylint --rcfile=setup.cfg src
+      - run:
+          name: Lint with pydocstyle
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev        
+            pydocstyle -e
+      - store_test_results:
+          path: test-reports
+      - store_artifacts:
+          path: test-reports
+
+workflows:
+  lint_and_test:
+    jobs:
+      - lint_test_py37_conda # Always run this, also in branches

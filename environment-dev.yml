@@ -1,0 +1,13 @@
+name: dhm_module_base_dev
+channels:
+  - conda-forge
+dependencies:
+  - python=3.7
+  - click>=6.0
+  - click-plugins>=1.0.0
+  - black
+  - pytest
+  - pytest-clarity
+  - pylint
+  - pydocstyle
+  - pip
