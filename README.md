@@ -1,5 +1,5 @@
 # DHM Base Module
-
+Build status: [![CircleCI](https://circleci.com/gh/Kortforsyningen/dhm-module-base.svg?style=svg)](https://circleci.com/gh/Kortforsyningen/dhm-module-base)
 ## Click interface
 
 ### Modul struktur
