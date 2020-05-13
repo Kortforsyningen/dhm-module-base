@@ -28,7 +28,7 @@ CLASSIFIERS = [
 ]
 
 INSTALL_REQUIRES = [
-    "click",
+    "click>=7.1",
     "click_plugins",
 ]
 

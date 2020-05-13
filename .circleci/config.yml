@@ -40,7 +40,7 @@ jobs:
           command: |
             source /opt/conda/etc/profile.d/conda.sh
             conda activate dhm_module_base_dev        
-            pydocstyle -e
+            pydocstyle -e --add-ignore D100
       - store_test_results:
           path: test-reports
       - store_artifacts:

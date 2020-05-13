@@ -3,6 +3,8 @@ import click
 
 
 class ClickColoredLoggingFormatter(logging.Formatter):
+    """Format logging with color based on log type."""
+
     default_colors = {
         "error": dict(fg="red"),
         "exception": dict(fg="red"),
@@ -12,10 +14,25 @@ class ClickColoredLoggingFormatter(logging.Formatter):
     }
 
     def __init__(self, fmt=None, datefmt=None, colors=None):
+        """__init__ for ClickColoredLoggingFormatter.
+
+        Args:
+            fmt ([type], optional): [description]. Defaults to None.
+            datefmt ([type], optional): [description]. Defaults to None.
+            colors ([type], optional): [description]. Defaults to None.
+        """
         super(ClickColoredLoggingFormatter, self).__init__(fmt, datefmt)
         self.colors = colors or ClickColoredLoggingFormatter.default_colors
 
     def format(self, record):
+        """Formats log record.
+
+        Args:
+            record: a single logging record
+
+        Returns:
+            logging.Formatter.format(self, record): Formatted record
+        """
         if not record.exc_info:
             level = record.levelname.lower()
             msg = record.getMessage()
