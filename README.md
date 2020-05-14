@@ -1,9 +1,9 @@
 # DHM Base Module
+
 Basis modul som bygger på principper for software-opbygning, bl.a. anvendt i repositoriet "surfclass".
 
 Build status: [![CircleCI](https://circleci.com/gh/Kortforsyningen/dhm-module-base.svg?style=svg)](https://circleci.com/gh/Kortforsyningen/dhm-module-base)
 
-## Click interface
 Dette er et basis modul, som er ment som modermodul for opgaver i SDFE. Funktionalitet der kunne have general betydning kan implementeres her, og specialiseret funktionalitet der enten lever i andre repositorier eller vil frembringe enten breaking changes / store dependency ændringer laves som plugins. Et eksempel på et modul der plugger ind i dette findes her: https://github.com/Kortforsyningen/dhm-module-example
 
 CLI modulet er baseret på Click https://click.palletsprojects.com/en/7.x/
