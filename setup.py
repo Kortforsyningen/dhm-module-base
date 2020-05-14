@@ -36,7 +36,6 @@ EXTRAS_REQUIRE = {"dev": ["pytest", "black"]}
 ENTRY_POINTS = """
       [console_scripts]
       dhm_module_base=dhm_module_base.cli:cli
-
 """
 
 ###############################################################################
