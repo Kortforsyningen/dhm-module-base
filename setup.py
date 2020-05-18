@@ -8,6 +8,7 @@ from setuptools import find_packages, setup
 NAME = "dhm_module_base"
 PACKAGES = find_packages(where="src")
 PACKAGE_DIR = {"": "src"}
+PACKAGE_DATA = {"dhm_module_base": ["configs/*",]}
 META_PATH = os.path.join("src", "dhm_module_base", "__init__.py")
 KEYWORDS = ["eksempel"]
 PROJECT_URLS = {
@@ -82,7 +83,7 @@ if __name__ == "__main__":
         packages=PACKAGES,
         package_dir=PACKAGE_DIR,
         include_package_data=True,
-        package_data={"src": ["configs/*",]},
+        package_data=PACKAGE_DATA,
         zip_safe=False,
         install_requires=INSTALL_REQUIRES,
         extras_require=EXTRAS_REQUIRE,
