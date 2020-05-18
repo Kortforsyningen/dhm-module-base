@@ -27,6 +27,7 @@ def configure_logging(log_level):
 @click.version_option(version=__version__)
 @options.verbosity_arg
 @options.configuration_arg
+@click.pass_context
 def cli(ctx, verbosity, config):
     """dhm_module_base command line interface."""
     ctx.ensure_object(dict)
@@ -41,8 +42,7 @@ def cli(ctx, verbosity, config):
     # by passing the click decorator @click.pass_context
     ctx.obj["config"] = config
 
-    if not verbosity:
-        configure_logging(config["DEFAULT"]["loglevel"])
-
     if verbosity:
         configure_logging(verbosity)
+    else:
+        configure_logging(config.get("loglevel"))

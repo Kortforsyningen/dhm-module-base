@@ -5,7 +5,7 @@ import os
 class Configuration:
     """Instantiate a Configuration object."""
 
-    ENVS = ["local", "dev", "prod"]
+    ENVS = ["DEFAULT", "local", "dev", "prod"]
     cwd = os.path.dirname(__file__)
     # If the configuration is local to the module, put it here.
     default_config = os.path.join(cwd, "configs", "config.ini")
@@ -68,16 +68,16 @@ class Configuration:
         else:
             raise FileNotFoundError("File %s not found" % path)
 
-    def get(self, prop):
-        """Get a property from the configuration.
-
-        Returns:
-            str: The property
-        """
-        try:
-            self.config.get(self.env, prop)
-        except configparser.Error:
-            raise KeyError(
-                "Could not find %s using section %s in file %s"
-                % (prop, self.env, self.path)
-            )
+    # def get(self, prop):
+    #    """Get a property from the configuration.
+    #
+    #    Returns:
+    #        str: The property
+    #    """
+    #    try:
+    #        self.config.get(self.env, prop)
+    #    except configparser.Error:
+    #        raise KeyError(
+    #            "Could not find %s using section %s in file %s"
+    #            % (prop, self.env, self.path)
+    #        )
