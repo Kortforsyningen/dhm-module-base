@@ -2,7 +2,7 @@ import configparser
 import os
 
 
-class Configuration(object):
+class Configuration:
     """Instantiate a Configuration object."""
 
     ENVS = ["local", "dev", "prod"]
@@ -12,7 +12,7 @@ class Configuration(object):
     if not os.path.exists(default_config):
         default_config = os.path.join(cwd, "configs", "dummy.ini")
 
-    def __init__(self, env="dev", path=default_config):
+    def __init__(self, env="DEFAULT", path=default_config):
         """__init__.
 
         Args:
@@ -20,8 +20,8 @@ class Configuration(object):
             path (str): Path to configuration file, allows to overwrite the default configuration
         """
         self.config = configparser.ConfigParser()
-        self.env = env
         self.path = path
+        self.env = env
 
     @property
     def env(self):
@@ -67,3 +67,17 @@ class Configuration(object):
             self.config.read(path)
         else:
             raise FileNotFoundError("File %s not found" % path)
+
+    def get(self, prop):
+        """Get a property from the configuration.
+
+        Returns:
+            str: The property
+        """
+        try:
+            self.config.get(self.env, prop)
+        except configparser.Error:
+            raise KeyError(
+                "Could not find %s using section %s in file %s"
+                % (prop, self.env, self.path)
+            )
