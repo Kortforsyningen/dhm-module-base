@@ -10,3 +10,12 @@ verbosity_arg = click.option(
     default="ERROR",
     help="Set verbosity level",
 )
+
+configuration_arg = click.option(
+    "--config",
+    "-c",
+    # pylint: disable=unexpected-keyword-arg
+    type=click.File("rb"),
+    default=None,
+    help="Configuration file",
+)

@@ -3,6 +3,8 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+src/dhm_module_base/configs/config.ini
+
 #visual studio code
 .vscode
 
