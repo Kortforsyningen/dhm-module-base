@@ -82,6 +82,7 @@ if __name__ == "__main__":
         packages=PACKAGES,
         package_dir=PACKAGE_DIR,
         include_package_data=True,
+        package_data={"src": ["configs/*",]},
         zip_safe=False,
         install_requires=INSTALL_REQUIRES,
         extras_require=EXTRAS_REQUIRE,
