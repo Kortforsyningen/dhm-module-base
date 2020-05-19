@@ -45,8 +45,49 @@ jobs:
           path: test-reports
       - store_artifacts:
           path: test-reports
+  deploy_pypi:
+    docker:
+      - image: continuumio/miniconda3
+    steps:
+      - checkout
+      - run:
+          name: "Verify git tag matches package version"
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev
+            python setup.py verify
+      - run:
+          name: init .pypirc
+          command: |
+            echo -e "[pypi]" >> ~/.pypirc
+            echo -e "username = $PYPI_USER" >> ~/.pypirc
+            echo -e "password = $PYPI_PASS" >> ~/.pypirc
+      - run:
+          name: Create PyPi package
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev
+            python setup.py sdist
+            python setup.py bdist_wheel
+      - run:
+          name: Upload to PyPi using twine
+          command: |
+            source /opt/conda/etc/profile.d/conda.sh
+            conda activate dhm_module_base_dev
+            twine upload dist/*
 
 workflows:
   lint_and_test:
     jobs:
       - lint_test_py37_conda # Always run this, also in branches
+  deploy:
+    jobs:
+      - lint_test_py37_conda
+      - deploy_pypi:
+          requires:
+            - lint_test_py37_conda
+          filters:
+            tags: # Only publish a github release after a build if tag matches convention
+              only: /v.*/
+            branches:
+              ignore: /.*/
