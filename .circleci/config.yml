@@ -51,6 +51,10 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Install requirements
+          command: |
+            conda env create -f environment-dev.yml
+      - run:
           name: "Verify git tag matches package version"
           command: |
             source /opt/conda/etc/profile.d/conda.sh
