@@ -77,12 +77,9 @@ jobs:
             twine upload dist/*
 
 workflows:
-  lint_and_test:
+  lint_test:
     jobs:
       - lint_test_py37_conda # Always run this, also in branches
-  deploy:
-    jobs:
-      - lint_test_py37_conda
       - deploy_pypi:
           requires:
             - lint_test_py37_conda
