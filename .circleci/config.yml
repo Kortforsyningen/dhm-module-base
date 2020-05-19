@@ -54,6 +54,8 @@ jobs:
           name: Install requirements
           command: |
             conda env create -f environment-dev.yml
+            conda activate dhm_module_base_dev
+            pip install twine
       - run:
           name: "Verify git tag matches package version"
           command: |
