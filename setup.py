@@ -104,6 +104,7 @@ if __name__ == "__main__":
         version=VERSION,
         description=find_meta("description"),
         long_description=readme(),
+        long_description_content_type="text/markdown",
         classifiers=CLASSIFIERS,
         keywords=KEYWORDS,
         author=find_meta("author"),
