@@ -1,6 +1,7 @@
 # DHM Base Module
 
 Basic module which uses software principles used in the repository "surfclass".
+
 Build status: [![CircleCI](https://circleci.com/gh/Kortforsyningen/dhm-module-base.svg?style=svg)](https://circleci.com/gh/Kortforsyningen/dhm-module-base)
 
 This is a basis module, meant as a "mother" module for internal tasks in SDFE. Functionality with general purposes, including configuration files and settings
@@ -8,6 +9,8 @@ can be implemented here. Specialised functionality is sought to be implemented i
 An example of a plugin that has this module as a dependency is described here: https://github.com/Kortforsyningen/dhm-module-example
 
 The CLI module is based on Click https://click.palletsprojects.com/en/7.x/
+
+Module is packaged by PyPi: https://pypi.org/project/dhm-module-base/
 
 ## Installation
 
@@ -52,6 +55,31 @@ Commands:
 ```
 
 Note that the commands list is empty, as no plugins are registered.
+
+### Configuration Files
+
+The plugin can take a default configuration file placed in `src\dhm_module_base\configs\config.ini` or a custom configuration file via `-c [PATH]` or `--config [PATH]`. A `dummy.ini` file is placed in the configs folder, as a fallback if neither `config.ini` or a `-c [PATH]` is provided.
+
+The configuration file can store any sections or values supported by `configparser`: https://docs.python.org/3/library/configparser.html
+
+The config is accessible in this repo at the `cli.py` level, and on the `ctx` object in plugins. Using the decorator `@click.pass_context`, commands can access the CLI context where the configuration is stored. This allows plugins and subcommands to access the same configuration. The configuration object is saved on the `ctx` like: `ctx.obj["config"]`. An example on how to use the `ctx` in a command is given here:
+
+```
+@click.pass_context
+def configuration(ctx, section, prop):
+    """Example command configuration.
+
+    Use @click.pass_context to get the CLI context. The CLI context contains the configuration object
+    """
+    # The config object from the current context inherited from the base CLI
+    config = ctx.obj["config"]
+
+    click.echo(config.get(section, prop))
+```
+
+See https://click.palletsprojects.com/en/7.x/commands/#nested-handling-and-contexts and https://docs.python.org/3/library/configparser.html for more information.
+
+####
 
 ## Repository structure
 
@@ -135,6 +163,20 @@ Commands:
 
 `inout` and `pipe` are commands from a plugin using the `[dhm_module_base.plugins]` entry point to register itself to the click group in the mother module.
 See example: https://github.com/Kortforsyningen/dhm-module-example/blob/master/setup.py#L38
+
+# Deploying to PyPi
+
+The module is deployed to PyPi using CircleCI and twine. Module is packaged by PyPi here: https://pypi.org/project/dhm-module-base/
+
+## Deploy a new version
+
+To deploy a new version, change the version number in `src\dhm_module_base\__init__.py` and commit the changes to master.
+
+Once master is up to date and the metadata has been changed, create a Github release with the same version number as in `__init__.py`. If the versions are not the same, the package will not be pushed.
+
+CircleCI will automatically deploy releases with a version tag equal to that in that `__init__.py` to PyPi using the twine package https://pypi.org/project/twine/
+
+Make sure version numbers follow https://www.python.org/dev/peps/pep-0440/ (Example: "major.minor.micro" - 0.0.1)
 
 # Github and CircleCI setup for existing python projects
 
